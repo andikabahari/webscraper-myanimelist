@@ -1,4 +1,4 @@
-# ws-myanimelist
+# webscraper-myanimelist
 
 ## Usage
 
