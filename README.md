@@ -16,7 +16,7 @@ $jsonMode = FALSE;
 $myanimelist = new MyAnimeList();
 
 $id = 31964;
-$animes = $myanimelist->getAnime($id, $jsonMode);
+$anime = $myanimelist->getAnime($id, $jsonMode);
 
 print_r($anime);
 
