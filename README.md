@@ -2,23 +2,52 @@
 
 ## Usage
 
+### Anime
+
 ```php
 <?php
 
 require_once __DIR__ . '/src/MyAnimeList.php';
 
-// Keyword used for searching contents
-$keyword = 'code geass';
+// True? Result will be returned as JSON string
+// False? Result will be returned as array
+$jsonMode = FALSE;
+
+$myanimelist = new MyAnimeList();
+
+$id = 31964;
+$animes = $myanimelist->getAnime($id, $jsonMode);
+
+print_r($anime);
+
+$keyword = 'boku no hero academia';
+$limit = 5;
+$animes = $myanimelist->searchAnime($keyword, $jsonMode, $limit);
+
+print_r($animes);
+```
+
+### Manga
+
+```php
+<?php
+
+require_once __DIR__ . '/src/MyAnimeList.php';
 
 // True? Result will be returned as JSON string
 // False? Result will be returned as array
 $jsonMode = FALSE;
 
-// Number of contents
-$limit = 5;
-
 $myanimelist = new MyAnimeList();
-$animes = $myanimelist->searchAnime($keyword, $jsonMode, $limit);
 
-print_r($animes);
+$id = 23390;
+$manga = $myanimelist->getManga($id, $jsonMode);
+
+print_r($manga);
+
+$keyword = 'shingeki no kyojin';
+$limit = 5;
+$mangas = $myanimelist->searchManga($keyword, $jsonMode, $limit);
+
+print_r($mangas);
 ```
