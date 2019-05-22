@@ -12,17 +12,26 @@ class Anime
   /**
    * @var string
    */
-  private $baseURL = 'https://myanimelist.net/anime/';
-
-  /**
-   * @var string
-   */
   private $searchURL = 'https://myanimelist.net/anime.php?q=';
 
   /**
    * @var string
    */
   private $ajaxURL = 'https://myanimelist.net/includes/ajax.inc.php?t=64&id=';
+
+  /**
+   * @param int $id
+   * @param bool $jsonMode
+   * @return mixed
+   */
+  public function get($id, $jsonMode)
+  {
+    $detail = $this->getAnimeDetail($this->ajaxURL . $id);
+
+    return $jsonMode === TRUE
+      ? json_encode($detail, JSON_PRETTY_PRINT)
+      : $detail;
+  }
 
   /**
    * @param string $keyword
@@ -41,7 +50,7 @@ class Anime
     $index = 0;
     for ($index; $index < $limit; $index++)
     {
-      $details[] = $this->getAnimeDetails($this->ajaxURL . $ids[$index]);
+      $details[] = $this->getAnimeDetail($this->ajaxURL . $ids[$index]);
     }
 
     return $jsonMode === TRUE
@@ -53,7 +62,7 @@ class Anime
    * @param string $url
    * @return array
    */
-  private function getAnimeDetails($url)
+  private function getAnimeDetail($url)
   {
     $content = $this->curl($url);
 
@@ -67,16 +76,16 @@ class Anime
       'link'        => '/\<a href\=\"(.*?)\"\>read/'
     );
 
-    $details = array();
+    $detail = array();
 
     foreach ($regex as $key => $value)
     {
-      $details[$key] = preg_match($value, $content, $matches)
-        ? $matches[1]
+      $detail[$key] = preg_match($value, $content, $matches)
+        ? trim($matches[1], ' ')
         : NULL;
     }
 
-    return $details;
+    return $detail;
   }
 
   /**
